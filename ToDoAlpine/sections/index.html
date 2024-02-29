@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="flex w-screen h-screen bg-gradient-to-tr from-purple-800 to-violet-600 items-center justify-center flex-col">
+    
+    <div class="fixed top-10 bg-white bg-opacity-75 rounded-full px-4 text-sm items-center justify-center flex gap-2 py-2">
+        <svg class="size-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+        </svg> This To Do app has been made to practice with Alpine.Js and Tailwind CSS.
+    </div>
+    <div class="w-[700px] h-[700px] bg-white justify-center flex items-start rounded-xl shadow-2xl pt-24">
+        <div x-data="{ todos: [], userInput: '' }">
+            <form x-on:submit.prevent>
+                <input class="w-[500px] border border-solid border-purple-800 py-2 px-2" x-model="userInput" @keydown.enter="if(userInput.trim().length) todos.push({id: Date.now(), name: userInput, completed: false}); userInput= ''" placeholder="Enter your ToDo's..." type="text">
+                <a x-on:click="if(userInput.trim().length) todos.push({id: Date.now(), name: userInput, completed: false}); userInput= ''"  class="relative px-5 py-2 font-medium text-white group mx-4">
+                    <span class="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-purple-500 group-hover:bg-purple-700 group-hover:skew-x-12"></span>
+                    <span class="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-purple-700 group-hover:bg-purple-500 group-hover:-skew-x-12"></span>
+                    <span class="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-purple-600 -rotate-12"></span>
+                    <span class="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-purple-400 -rotate-12"></span>
+                    <span class="relative">Add</span>
+                </a>
+            </form>
+            <div class="text-2xl font-bold py-4">Your ToDo List</div>
+            <template x-for="todo in todos" :key="todo.id">
+                <div class="flex justify-between items-center ">
+                    <div>
+                        <input type="checkbox" x-model="todo.completed">
+                        <span class="text-lg pl-4" x-text="todo.name" :class="{'completed': todo.completed}"></span>
+                    </div>
+                    <button @click="todos = todos.filter((currTodo) => currTodo.id !== todo.id)" class="size-6 bg-red-600 text-white items-center flex justify-center">X</button>
+                </div>
+            </template>
+            <button class="fixed bottom-44 items-end pl-[540px] underline" @click="todos = []" x-show="todos.length">Clear All</button>
+    
+            <div class="fixed items-center justify-center bottom-44 text-base">
+                <span x-text="todos.filter((todo) => todo.completed).length"></span> /
+                <span x-text="todos.length"></span> todos completed
+            </div>
+        </div>
+    </div>
+    <div class="fixed bottom-4 text-sm text-white">All Rights Reserved ©2024 Muhammet Kökten </div>
+</body>
+
+</html>
+
